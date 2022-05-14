@@ -16,11 +16,6 @@ const createUserValidations = [
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
 ];
-
-const createCommentValidations = [
-  body('text').notEmpty().withMessage('Comment cannot be empty'),
-];
-
 const checkValidations = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -38,6 +33,5 @@ const checkValidations = (req, res, next) => {
 
 module.exports = {
   createUserValidations,
-  createCommentValidations,
   checkValidations,
 };

@@ -6,11 +6,11 @@ const {
   userExists,
   protectToken,
   protectAccountOwner,
-} = require('../helpFolder/middlewares/users.middlewares');
+} = require('../middlewares/users.middlewares');
 const {
   createUserValidations,
   checkValidations,
-} = require('../helpFolder/middlewares/validations.middlewares');
+} = require('../middlewares/validations.middlewares');
 
 // Controller
 const {
@@ -18,7 +18,8 @@ const {
   updateUser,
   deleteUser,
   login,
-  getAllOrders
+  getAllOrders, 
+  getOrderById
 } = require('../helpFolder/controllers/users.controller');
 
 const router = express.Router();

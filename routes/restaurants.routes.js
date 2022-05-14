@@ -44,9 +44,11 @@ router
 router.post('/', createRestaurantValidator, checkValidations, createRestaurant);
 
 // /reviews/:id 
+router.post('/reviews/:id', createReview)
+
+// /reviews/:restaurantId/:id
 router
-  .route('/reviews/:id')
-  .post(createReview)
+  .route('/reviews/:restaurantId/:id')
   .patch(protectAdmin,updateReview)
   .delete(protectAdmin,deleteReview)
 
