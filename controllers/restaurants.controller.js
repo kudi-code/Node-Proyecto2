@@ -19,7 +19,7 @@ const createRestaurant = catchAsync(async (res, req, next) => {
 });
 
 const getAllRestaurants = catchAsync(async (res, req, next) => {
-  const { name, address, rating } = req.body;
+  // const { name, address, rating } = req.body;
 
   const restaurants = await Restaurant.findAll({ where: { status: 'active' } });
 
@@ -72,6 +72,7 @@ const createReview = catchAsync(async (res, req, next) => {
 
 const updateReview = catchAsync(async (res, req, next) => {
   const { id, restaurantId } = req.params;
+  //Restaurant.id? 
   const { sessionUser } = req;
   const { comment, rating } = req.body;
 
@@ -85,8 +86,8 @@ const updateReview = catchAsync(async (res, req, next) => {
 
 const deleteReview = catchAsync(async (res, req, next) => {
   const { id, restaurantId } = req.params;
+  //Restaurant.id?
   const { sessionUser } = req;
-  const { comment, rating } = req.body;
 
   const review = await Review.findOne({
     where: { id, userId: sessionUser.id },
@@ -102,4 +103,7 @@ module.exports = {
   getRestaurantById,
   updateRestaurant,
   deleteRestaurant,
+  createReview,
+  updateReview,
+  deleteReview,
 };

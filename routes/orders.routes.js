@@ -4,7 +4,7 @@ const { body } = require('express-validator');
 // Middlewares
 const {
   protectToken,
-  protectAdmin,
+  protectAccountOwner,
 } = require('../middlewares/users.middlewares');
 
 const {
@@ -26,7 +26,7 @@ const router = express.Router();
 router.use(protectToken);
 
 // /root
-router.post('/', createOrders);
+router.post('/', createOrder);
 
 // /me
 router.get('/me', getAllOrders);
@@ -34,7 +34,7 @@ router.get('/me', getAllOrders);
 //:id
 router
   .route('/:id')
-  .patch(protectAdmin, updateOrder)
-  .delete(protectAdmin, deleteOrder);
+  .patch(protectAccountOwner, updateOrder)
+  .delete(protectAccountOwner, deleteOrder);
 
 module.exports = { mealsRouter: router };

@@ -118,10 +118,7 @@ const getAllOrders = catchAsync(async (res, req, next) => {
 
     const orders = await Order.findAll(
       {where: {userId: sessionUser.id},
-      include: [
-        {model: Meal,
-         model: Restaurant
-      }]
+      include: [{model: Restaurant}]
     })
 
     res.status(201).json({
@@ -134,7 +131,10 @@ const getOrderById = catchAsync(async (res, req, next) => {
   const {sessionUser} = req;
   const {id} = req.params
 
-  const order = await Order.findOne({where: {id, userId: sessionUser.id}})
+  const order = await Order.findOne({where: {id, userId: sessionUser.id},
+    include: [{model: Restaurant}]
+    
+  })
 
   if(!order){
     return next(new AppError('Order Not Found', 400));
@@ -142,7 +142,7 @@ const getOrderById = catchAsync(async (res, req, next) => {
   }
 
   res.status(201).json({
-    orders
+    order
   })
 
 });
