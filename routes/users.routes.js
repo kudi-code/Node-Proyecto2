@@ -20,7 +20,7 @@ const {
   login,
   getAllOrders, 
   getOrderById
-} = require('../helpFolder/controllers/users.controller');
+} = require('../controllers/users.controller');
 
 const router = express.Router();
 
@@ -37,8 +37,8 @@ router
   .delete(userExists, protectAccountOwner, deleteUser);
 
 //orders
-router.get('/orders', protectAccountOwner, getAllOrders)
-router.get('/orders/:id', protectAccountOwner, getOrderById)
+router.get('/orders', getAllOrders)
+router.get('/orders/:id',  getOrderById)
 
 
 module.exports = { usersRouter: router };

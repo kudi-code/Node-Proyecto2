@@ -17,12 +17,11 @@ const Review = db.define('review', {
     allowNull: false,
   },
   restaurantId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   rating: {
     type: DataTypes.INTEGER,
-    defaultValue: 'active',
   },
 });
 

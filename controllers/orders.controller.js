@@ -8,15 +8,14 @@ const { catchAsync } = require('../utils/catchAsync');
 const { AppError } = require('../utils/appError');
 
 //Functions
-const createOrder = catchAsync(async (res, req, next) => {
+const createOrder = catchAsync(async (req,res, next) => {
   const { sessionUser } = req;
   const { quantity, mealId } = req.body;
   //search Meal
-  const meal = Meal.findOne({ where: { id: mealId } });
+  const meal = await Meal.findOne({ where: { id: mealId } });
   if (!meal) {
     return next(new AppError('Meal Not Found', 400));
   }
-
   const totalPrice = meal.price * quantity
   const order = await Order.create({
     mealId,
@@ -28,25 +27,29 @@ const createOrder = catchAsync(async (res, req, next) => {
   res.status(201).json({ status: 'done!', order });
 });
 
-const getAllOrders = catchAsync(async (res, req, next) => {
+const getAllOrders = catchAsync(async (req, res, next) => {
     const {sessionUser} = req
 
   const orders = await Order.findAll({
     where: { status: 'active', userId: sessionUser.id },
-    include: [{model: Meal},{model: Restaurant}] ,
+    include: [{model: Meal, include: [{model: Restaurant}]}] ,
   });
   res.status(201).json({
     orders,
   });
 });
 
-const updateOrder = catchAsync(async (res, req, next) => {
+const updateOrder = catchAsync(async (req,res, next) => {
   const { id } = req.params;
   const {sessionUser} = req
+
   const order = await Order.findOne({ where: {id, userId: sessionUser.id } });
+  if(!order){
+    return next(new AppError(`This order don´t exist`, 400));
+  }
   if(order.status!=='active'){
     return next(new AppError(`This order have status: ${order.status}`, 400));
-  }
+  } 
 
   order.update({ status: 'completed' });
 
@@ -55,7 +58,7 @@ const updateOrder = catchAsync(async (res, req, next) => {
   });
 });
 
-const deleteOrder = catchAsync(async (res, req, next) => {
+const deleteOrder = catchAsync(async (req,res, next) => {
     const { id } = req.params;
     const {sessionUser} = req
     const order = await Order.findOne({ where: { status: 'active', id, userId: sessionUser.id } });

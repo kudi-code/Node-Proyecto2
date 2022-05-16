@@ -7,32 +7,14 @@ const dotenv = require('dotenv');
 // Models
 const { User } = require('../models/user.model');
 const { Order } = require('../models/order.model');
-const {Meal} = require('../models/meal.model')
-const {Restaurant} = require('../models/restaurant.model')
-
+const { Meal } = require('../models/meal.model');
+const { Restaurant } = require('../models/restaurant.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync');
 const { AppError } = require('../utils/appError');
 
 dotenv.config({ path: './config.env' });
-
-// const getAllUsers = catchAsync(async (req, res, next) => {
-//   // SELECT * FROM users;
-//   // Include the posts that each user has created
-//   // Include the comments that each user has created
-//   // Include the post in which the comment was made
-//   const users = await User.findAll({
-//     attributes: { exclude: ['password'] },
-//   //   include: [{ model: Post, attributes: { exclude: ['userId']} },
-//   //             { model: Comment, include: [{model: Post, attributes: ['id', 'title']}] },
-//   // ]
-//   });
-
-//   res.status(200).json({
-//     users,
-//   });
-// });
 
 const createUser = catchAsync(async (req, res, next) => {
   const { name, email, password, role } = req.body;
@@ -113,38 +95,41 @@ const checkToken = catchAsync(async (req, res, next) => {
 });
 
 /*--------------------Orders--------------------------*/
-const getAllOrders = catchAsync(async (res, req, next) => {
-    const {sessionUser} = req;
 
-    const orders = await Order.findAll(
-      {where: {userId: sessionUser.id},
-      include: [{model: Restaurant}]
-    })
+const getAllOrders = catchAsync(async (req, res, next) => {
+  const { sessionUser } = req;
 
-    res.status(201).json({
-      orders
-    })
+  console.log(sessionUser);
 
+  const orders = await Order.findAll({
+    where: { userId: sessionUser.id },
+    include: [{ model: Meal, include: [{model: Restaurant}] }],
+
+  });
+
+  res.status(201).json({
+    orders,
+  });
 });
 
-const getOrderById = catchAsync(async (res, req, next) => {
-  const {sessionUser} = req;
-  const {id} = req.params
+const getOrderById = catchAsync(async (req, res, next) => {
+  const { sessionUser } = req;
+  const { id } = req.params;
 
-  const order = await Order.findOne({where: {id, userId: sessionUser.id},
-    include: [{model: Restaurant}]
-    
-  })
+  console.log(sessionUser);
 
-  if(!order){
+  const order = await Order.findOne({
+    where: { id, userId: sessionUser.id },
+    include: [{ model: Meal, include: [{model: Restaurant}] }],
+  });
+
+  if (!order) {
     return next(new AppError('Order Not Found', 400));
-
   }
 
   res.status(201).json({
-    order
-  })
-
+    order,
+  });
 });
 
 module.exports = {
@@ -155,5 +140,5 @@ module.exports = {
   login,
   checkToken,
   getAllOrders,
-  getOrderById
+  getOrderById,
 };

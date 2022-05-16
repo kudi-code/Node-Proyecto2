@@ -7,15 +7,15 @@ const { catchAsync } = require('../utils/catchAsync');
 const { AppError } = require('../utils/appError');
 
 //Functions
-const createMeal = catchAsync(async (res, req, next) => {
+const createMeal = catchAsync(async (req,res, next) => {
   const { id } = req.params;
   const { name, price } = req.body;
 
-  const meal = await Meal.create({ name, price, restautantId: id });
+  const meal = await Meal.create({ name, price, restaurantId: id });
   res.status(201).json({ status: 'done!', meal });
 });
 
-const getAllMeals = catchAsync(async (res, req, next) => {
+const getAllMeals = catchAsync(async (req,res, next) => {
   const meals = await Meal.findAll({
     where: { status: 'active' },
     include: [{ model: Restaurant }],
@@ -25,7 +25,7 @@ const getAllMeals = catchAsync(async (res, req, next) => {
   });
 });
 
-const getMealById = catchAsync(async (res, req, next) => {
+const getMealById = catchAsync(async (req,res, next) => {
   const { id } = req.params;
   const meal = await Meal.findOne({
     where: { status: 'active', id },
@@ -40,7 +40,8 @@ const getMealById = catchAsync(async (res, req, next) => {
   });
 });
 
-const updateMeal = catchAsync(async (res, req, next) => {
+const updateMeal = catchAsync(async (req,res, next) => {
+  console.log("Meal")
   const { id } = req.params;
   const { name, price } = req.body;
   const meal = await Meal.findOne({ where: { status: 'active', id } });
@@ -51,7 +52,7 @@ const updateMeal = catchAsync(async (res, req, next) => {
   });
 });
 
-const deleteMeal = catchAsync(async (res, req, next) => {
+const deleteMeal = catchAsync(async (req,res, next) => {
   const { id } = req.params;
   const meal = await Meal.findOne({ where: { status: 'active', id } });
   meal.update({ status: 'deleted' });

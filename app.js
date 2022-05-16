@@ -6,12 +6,6 @@ const rateLimit = require('express-rate-limit');
 // Controllers
 const { globalErrorHandler } = require('./controllers/errors.controller');
 
-// Routers
-const { usersRouter } = require('./routes/users.routes');
-const { restaurantsRouter } = require('./routes/restaurants.routes');
-const { mealsRouter } = require('./routes/meals.routes');
-const { ordersRouter } = require('./routes/orders.routes');
-
 // Init express app
 const app = express();
 
@@ -20,6 +14,12 @@ app.use(cors());
 
 // Enable incoming JSON data
 app.use(express.json());
+
+// Routers
+const { usersRouter } = require('./routes/users.routes');
+const { restaurantsRouter } = require('./routes/restaurants.routes');
+const { mealsRouter } = require('./routes/meals.routes');
+const { ordersRouter } = require('./routes/orders.routes');
 
 // Limit IP requests
 const limiter = rateLimit({

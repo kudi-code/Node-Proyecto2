@@ -5,6 +5,8 @@ const { body } = require('express-validator');
 const {
   protectToken,
   protectAccountOwner,
+  userExists,
+  userExistsMod,
 } = require('../middlewares/users.middlewares');
 
 const {
@@ -34,7 +36,7 @@ router.get('/me', getAllOrders);
 //:id
 router
   .route('/:id')
-  .patch(protectAccountOwner, updateOrder)
-  .delete(protectAccountOwner, deleteOrder);
+  .patch(userExistsMod,protectAccountOwner, updateOrder)
+  .delete(userExistsMod,protectAccountOwner, deleteOrder);
 
-module.exports = { mealsRouter: router };
+module.exports = { ordersRouter: router };

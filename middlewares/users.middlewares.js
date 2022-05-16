@@ -49,7 +49,26 @@ const protectAdmin = catchAsync(async (req, res, next) => {
 });
 
 const userExists = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  
+  var { id } = req.params;
+  
+  const user = await User.findOne({
+    where: { id, status: 'active' },
+    attributes: { exclude: ['password'] },
+  });
+
+  if (!user) {
+    return next(new AppError('User does not exist with given Id', 404));
+  }
+
+  // Add user data to the req object
+  req.user = user;
+  next();
+});
+const userExistsMod = catchAsync(async (req, res, next) => { 
+  
+  const { id } = req.sessionUser 
+  
 
   const user = await User.findOne({
     where: { id, status: 'active' },
@@ -84,4 +103,5 @@ module.exports = {
   protectToken,
   protectAdmin,
   protectAccountOwner,
+  userExistsMod
 };

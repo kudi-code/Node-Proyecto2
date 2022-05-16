@@ -6,7 +6,7 @@ const { Review } = require('../models/review.model');
 const { catchAsync } = require('../utils/catchAsync');
 const { AppError } = require('../utils/appError');
 
-const createRestaurant = catchAsync(async (res, req, next) => {
+const createRestaurant = catchAsync(async (req, res, next) => {
   const { name, address, rating } = req.body;
 
   const newRestaurant = await Restaurant.create({
@@ -18,7 +18,7 @@ const createRestaurant = catchAsync(async (res, req, next) => {
   res.status(201).json({ newRestaurant });
 });
 
-const getAllRestaurants = catchAsync(async (res, req, next) => {
+const getAllRestaurants = catchAsync(async (req, res, next) => {
   // const { name, address, rating } = req.body;
 
   const restaurants = await Restaurant.findAll({ where: { status: 'active' } });
@@ -26,7 +26,7 @@ const getAllRestaurants = catchAsync(async (res, req, next) => {
   res.status(201).json({ restaurants });
 });
 
-const getRestaurantById = catchAsync(async (res, req, next) => {
+const getRestaurantById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const restaurant = await Restaurant.findOne({ where: { id } });
@@ -34,7 +34,7 @@ const getRestaurantById = catchAsync(async (res, req, next) => {
   res.status(201).json({ restaurant });
 });
 
-const updateRestaurant = catchAsync(async (res, req, next) => {
+const updateRestaurant = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { name, address } = req.body;
 
@@ -45,7 +45,7 @@ const updateRestaurant = catchAsync(async (res, req, next) => {
   res.status(201).json({ status: 'done!' });
 });
 
-const deleteRestaurant = catchAsync(async (res, req, next) => {
+const deleteRestaurant = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const restaurant = await Restaurant.findOne({ where: { id } });
@@ -55,7 +55,7 @@ const deleteRestaurant = catchAsync(async (res, req, next) => {
   res.status(201).json({ status: 'done!' });
 });
 
-const createReview = catchAsync(async (res, req, next) => {
+const createReview = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { sessionUser } = req;
   const { comment, rating } = req.body;
@@ -70,9 +70,9 @@ const createReview = catchAsync(async (res, req, next) => {
   res.status(201).json({ status: 'done!' });
 });
 
-const updateReview = catchAsync(async (res, req, next) => {
+const updateReview = catchAsync(async (req, res, next) => {
   const { id, restaurantId } = req.params;
-  //Restaurant.id? 
+  //Restaurant.id?
   const { sessionUser } = req;
   const { comment, rating } = req.body;
 
@@ -84,7 +84,7 @@ const updateReview = catchAsync(async (res, req, next) => {
   res.status(201).json({ status: 'done!' });
 });
 
-const deleteReview = catchAsync(async (res, req, next) => {
+const deleteReview = catchAsync(async (req, res, next) => {
   const { id, restaurantId } = req.params;
   //Restaurant.id?
   const { sessionUser } = req;

@@ -7,6 +7,7 @@ const {
   protectAdmin
 } = require('../middlewares/users.middlewares');
 
+
 const {
   createRestaurantValidator,
   checkValidations,
@@ -41,7 +42,9 @@ router
   .delete(protectAdmin, deleteRestaurant)
 
 //root
-router.post('/', createRestaurantValidator, checkValidations, createRestaurant);
+router.post('/', 
+// createRestaurantValidator, 
+ createRestaurant);
 
 // /reviews/:id 
 router.post('/reviews/:id', createReview)
