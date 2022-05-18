@@ -10,7 +10,7 @@ const {
 } = require('../middlewares/users.middlewares');
 
 const {
-  createMealValidator,
+  createOrderValidations,
   checkValidations,
 } = require('../middlewares/validations.middlewares');
 
@@ -28,7 +28,7 @@ const router = express.Router();
 router.use(protectToken);
 
 // /root
-router.post('/', createOrder);
+router.post('/', createOrderValidations, checkValidations, createOrder);
 
 // /me
 router.get('/me', getAllOrders);

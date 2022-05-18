@@ -16,6 +16,47 @@ const createUserValidations = [
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
 ];
+
+const createRestaurantValidations = [
+  body('name').notEmpty().withMessage('Name cannot be empty'),
+  body('address')
+    .isString()
+    .withMessage('Adress must be string')
+    .notEmpty()
+    .withMessage('Address cannot be empty'),
+  body('rating')
+    .notEmpty()
+    .withMessage('Rating cannot be empty')
+    .isInt({min:1, max:5})
+    .withMessage('Rating must be 1 to 5')
+];
+
+const createOrderValidations = [
+  body('mealId')
+    .notEmpty()
+    .withMessage('mealId cannot be empty')
+    .isInt()
+    .withMessage('mealId must be Int'),  
+  body('quantity')
+    .notEmpty()
+    .withMessage('quantity cannot be empty')
+    .isInt()
+    .withMessage('quantity must be Int'),
+];
+
+const createMealValidations = [
+  body('name')
+    .notEmpty()
+    .withMessage('name cannot be empty')
+    .isString()
+    .withMessage('name must be string'),
+  body('price')
+    .notEmpty()
+    .withMessage('price cannot be empty')
+    .isInt()
+    .withMessage('price must be Int')
+];
+
 const checkValidations = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -33,5 +74,8 @@ const checkValidations = (req, res, next) => {
 
 module.exports = {
   createUserValidations,
+  createRestaurantValidations,
+  createOrderValidations,
+  createMealValidations,
   checkValidations,
 };

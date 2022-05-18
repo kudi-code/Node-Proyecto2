@@ -9,7 +9,7 @@ const {
 
 
 const {
-  createRestaurantValidator,
+  createRestaurantValidations,
   checkValidations,
 } = require('../middlewares/validations.middlewares');
 
@@ -43,7 +43,8 @@ router
 
 //root
 router.post('/', 
-// createRestaurantValidator, 
+createRestaurantValidations,
+checkValidations, 
  createRestaurant);
 
 // /reviews/:id 

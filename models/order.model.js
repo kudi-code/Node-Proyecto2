@@ -10,9 +10,11 @@ const Order = db.define('order', {
   },
   mealId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
   },
   userId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
   },
   totalPrice: {
     type: DataTypes.INTEGER,
@@ -24,7 +26,6 @@ const Order = db.define('order', {
   },  
   status: {
     type: DataTypes.STRING,
-    allowNull: false,
     defaultValue: 'active',
   },
 });

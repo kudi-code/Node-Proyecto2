@@ -8,8 +8,7 @@ const {
 } = require('../middlewares/users.middlewares');
 
 const {
-  createMealValidator,
-  checkValidations,
+  createMealValidations, checkValidations,
 } = require('../middlewares/validations.middlewares');
 
 // Controller
@@ -24,7 +23,7 @@ const {
 const router = express.Router();
 
 // /root
-router.post('/:id', createMeal);
+router.post('/:id', createMealValidations,checkValidations, createMeal);
 router.get('/', getAllMeals);
 router.get('/:id', getMealById);
 
